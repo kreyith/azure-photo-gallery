@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  {% if user %}
+    <h1>Welcome back, {{ user }}!</h1>
+    <p>DEBUG: user = {{ user}} </p>
+    <p>Go to the <a href="{{ url_for('gallery') }}">Gallery</a> to see your photos.</p>
+  {% else %}
+    <h1>Welcome to My Flask App!</h1>
+    <p>Please sign in to upload your own photos.</p>
+  {% endif %}
+{% endblock %}

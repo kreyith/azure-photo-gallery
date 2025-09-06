@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Photo Gallery{% endblock %}
+
+{% block content %}
+<h1>My Photo Gallery</h1>
+<ul class="gallery">
+  {% for photo in photos %}
+    <li>
+      <a href="{{ url_for('static', filename='images/' ~ photo) }}" target="_blank">
+        <img src="{{ url_for('static', filename='images/' ~ photo) }}" alt="{{ photo }}">
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
