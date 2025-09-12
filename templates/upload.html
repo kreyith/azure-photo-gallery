@@ -1,5 +1,18 @@
-<h1> Upload photo / files</h1>
-<form action="/upload" method="POST" enctype="multipart/form-data"
-<input type="file" name="Photo">
-<button type="submit">Upload</button>
+{% extends "base.html" %}
+
+{% block title %}Upload{% endblock %}
+
+{% block content %}
+<h1>Upload Files</h1>
+<form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="photo" required onchange="this.form.submit()"></input>
+    
 </form>
+<div id="status"></div>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function() {
+    document.getElementById('status').innerText = 'Uploading… please wait';
+});
+</script>
+{% endblock %}

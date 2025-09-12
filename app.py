@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
+import time
 
 app = Flask(__name__)
 
@@ -13,31 +14,25 @@ photos = ["goodmorning.png", "sparky.jpg", "starwars1.jpg" ]
 
 @app.route("/gallery")
 def gallery():
-    image_folder = os.path.join("static", "images")
-    photos = []
+    file_folder = os.path.join("static", "images")   # adjust if your folder is named differently
+    files = os.listdir(file_folder)                  # list *all* files, no extension filter
+    return render_template("gallery.html", files=files)
 
-    # loop through all files in static/images
-    for filename in os.listdir(image_folder):
-        if filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
-            photos.append(filename)
-
-    return render_template("gallery.html", photos=photos)
 
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
     if request.method == "POST":
-        file = request.files.get("photo")  # safer than request.files["photo"]
+        file = request.files.get("photo")
         if file and file.filename != "":
             filepath = os.path.join("static/images", file.filename)
             file.save(filepath)
-            return redirect(url_for("gallery"))  # go back to gallery
+            time.sleep(5) #artificial delay
+            return redirect(url_for("gallery"))
         else:
             return "No file selected", 400
-
-    # This part always runs for GET requests
     return render_template("upload.html")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

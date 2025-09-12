@@ -1,15 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Photo Gallery{% endblock %}
+{% block title %}File Gallery{% endblock %}
 
 {% block content %}
-<h1>My Photo Gallery</h1>
+<h1>Uploaded Files</h1>
 <ul class="gallery">
-  {% for photo in photos %}
+  {% for file in files %}
     <li>
-      <a href="{{ url_for('static', filename='images/' ~ photo) }}" target="_blank">
-        <img src="{{ url_for('static', filename='images/' ~ photo) }}" alt="{{ photo }}">
-      </a>
+      {% if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+        <!-- Preview images as thumbnails -->
+        <a href="{{ url_for('static', filename='images/' ~ file) }}" target="_blank">
+          <img src="{{ url_for('static', filename='images/' ~ file) }}"
+               alt="{{ file }}" width="200">
+        </a>
+      {% else %}
+        <!-- Download/view link for other file types -->
+        <a href="{{ url_for('static', filename='images/' ~ file) }}" target="_blank">
+          {{ file }}
+        </a>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>
